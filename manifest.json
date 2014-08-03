@@ -3,17 +3,23 @@
   "description": "Dulst-TouhouRSO community pack.",
   "version": "0.1",
   "manifest_version": 2, // mandatory for chrome
-  
-  "app": {
-    "background": {
-      "scripts": ["background.js"]
-    }
+
+  "browser_action": {
+    "default_icon": "assets/images/Hakkero32.png",
+    "default_popup": "popup.html",
+    "default_title": "Masutāsupāku - Dulst-RSO extention"
   },
-  "icons": { 
+  "icons": {
     "16" : "assets/images/Hakkero16.png", 
     "32" : "assets/images/Hakkero32.png", 
     "48" : "assets/images/Hakkero48.png", 
     "64" : "assets/images/Hakkero64.png", 
     "128": "assets/images/Hakkero128.png"
-  }
+  },
+
+
+  "permissions": [
+    "http://*.dulst.com/touhourso/*",
+    "http://dulst.com/touhourso/*"
+  ]
 }
