@@ -17,7 +17,7 @@ $(function() {
       img.setAttribute("alt"   , "Masutāsupāku"                   );
       img.setAttribute("height", "64px"                           );
       img.setAttribute("id"    , "headerImage"                    );
-      img.setAttribute("src"   , "assets/images/Hakkero128x64.png");
+      img.setAttribute("src"   , "../../images/Hakkero128x64.png" );
       img.setAttribute("title" , "Masutāsupāku"                   );
       img.setAttribute("width" , "128px"                          );
       e.body.appendChild(img);
@@ -60,10 +60,33 @@ $(function() {
       input.style.marginTop = "8px";
       input.style.marginLeft = "10px";
 
+      input.onlick = function() {
+        chrome.runtime.sendMessage({
+          message: "match",
+          info: [{"url": "http://dulst.com/touhourso/matches",title: "RumblingSpellOrchestra"}],
+          setting: this.setting
+        });
+      }
+
       e.body.appendChild(input);
     }
   };
 
+  function matchClick() {
+  chrome.runtime.sendMessage({
+    message: "match",
+    info: [{"url": "http://dulst.com/touhourso/matches",title: "RumblingSpellOrchestra"}],
+    setting: this.setting
+  });
+}
+
   /* Execution */
   popupGenerator.generate(document);
+  $("#matchButton").bind("click",function() {
+    chrome.runtime.sendMessage({
+      message: "match",
+      info: [{"url": "http://dulst.com/touhourso/matches",title: "RumblingSpellOrchestra"}],
+      setting: this.setting
+    });
+  });
 });
