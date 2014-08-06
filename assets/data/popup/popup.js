@@ -60,25 +60,9 @@ $(function() {
       input.style.marginTop = "8px";
       input.style.marginLeft = "10px";
 
-      input.onlick = function() {
-        chrome.runtime.sendMessage({
-          message: "match",
-          info: [{"url": "http://dulst.com/touhourso/matches",title: "RumblingSpellOrchestra"}],
-          setting: this.setting
-        });
-      }
-
       e.body.appendChild(input);
     }
   };
-
-  function matchClick() {
-  chrome.runtime.sendMessage({
-    message: "match",
-    info: [{"url": "http://dulst.com/touhourso/matches",title: "RumblingSpellOrchestra"}],
-    setting: this.setting
-  });
-}
 
   /* Execution */
   popupGenerator.generate(document);
