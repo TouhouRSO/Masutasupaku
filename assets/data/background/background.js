@@ -26,6 +26,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 		break;
 	case "init":
 		callback(settingManager.load());
+		/* load audio */
+		if (settingManager.audio == null) {
+			settingManager.audio = [];
+			settingManager.audio.push(new Audio("http://cdn4.dulst.com/cardSrcMedia/18uauavl4_op1.mp3")); // intro
+			settingManager.audio.push(new Audio("http://cdn4.dulst.com/cardSrcMedia/18uat6irv_mukyuu.mp3")); // mukyuu
+		}
 		break;
 	case "update":
 		settingManager.save(request.setting);
@@ -45,7 +51,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 	}
 });
 
-
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	if (tab.url.match(/http:\/\/dulst.com\/touhourso\/play\//gi) != null) {
+		settingManager.audio[0].play();
+	}
+});
 if (!settingManager.isInit()) {
 	// initialize settings manager with defaults and to stop this appearing again
 	settingManager.init();
