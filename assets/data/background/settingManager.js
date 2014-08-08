@@ -1,4 +1,4 @@
-var CurrentVersion = '0.1';
+var CurrentVersion = '0.3';
 
 function SettingManager() {}
 
@@ -9,17 +9,17 @@ SettingManager.prototype.init = function() {
 	};
 	
 	// save setting to local storage
-	localStorage['Masutasupaku-setting'] = JSON.stringify(setting);
-	localStorage['Masutasupaku-version'] = 0.1;
+	localStorage["Masutasupaku-setting"] = JSON.stringify(setting);
+	localStorage["Masutasupaku-setting-version"] = 0.3;
 	return setting;
 }
 
 SettingManager.prototype.isInit = function() {
-	return (localStorage['Masutasupaku-version'] != undefined);
+	return (localStorage["Masutasupaku-setting-version"] != undefined);
 }
 
 SettingManager.prototype.isLatest = function() {
-	return (localStorage['Masutasupaku-version'] == CurrentVersion);
+	return (localStorage["Masutasupaku-setting-version"] == CurrentVersion);
 }
 
 SettingManager.prototype.update = function() {

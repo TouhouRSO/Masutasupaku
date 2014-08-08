@@ -12,6 +12,7 @@
   "background": {
     "scripts": [
       "assets/data/background/settingManager.js",
+      "assets/data/background/dataManager.js",
       "assets/data/background/background.js"
     ]
   },
