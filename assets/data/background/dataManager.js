@@ -1,4 +1,4 @@
-var CurrentVersion = '0.3';
+var CurrentVersion = "1.0";
 
 function DataManager() {}
 
@@ -13,7 +13,7 @@ DataManager.prototype.init = function() {
 	
 	// save data to local storage
 	localStorage["Masutasupaku-data"] = JSON.stringify(data);
-	localStorage["Masutasupaku-data-version"] = 0.3;
+	localStorage["Masutasupaku-data-version"] = 1.0;
 	return data;
 }
 

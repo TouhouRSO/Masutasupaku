@@ -1,6 +1,6 @@
-var settingManager = new SettingManager();
-var dataManager = new DataManager();
-
+window.notificationID = 1;
+window.dataManager = new DataManager();
+window.settingManager = new SettingManager();
 
 function openTab(url, window_id) {
 	chrome.tabs.create({
@@ -27,13 +27,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 		break;
 	case "init":
 		callback({
-			data: dataManager.load(),
-			setting: settingManager.load()
+			data: window.dataManager.load(),
+			setting: window.settingManager.load()
 		});
 		break;
 	case "update":
-		dataManager.save(request.data);
-		settingManager.save(request.setting);
+		window.dataManager.save(request.data);
+		window.settingManager.save(request.setting);
 		chrome.windows.getAll({
 			populate: true
 		}, function(windowList) {
@@ -41,28 +41,50 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 				window.tabs.forEach(function(tab) {
 					chrome.tabs.sendMessage(tab.id, {
 						message: 'update',
-						data: dataManager.load(),
-						setting: settingManager.load()
+						data: window.dataManager.load(),
+						setting: window.settingManager.load()
 					}, null);
 				})
 			})
 		});
+		break;
+	case "getSetting":
+		callback(window.settingManager.load());
+		break;
+	case "getData":
+		callback(window.dataManager.load());
+		break;
+	case "setSetting":
+		window.settingManager.save(request.setting);
+		callback(window.settingManager.load());
+		break;
+	case "setData":
+		window.dataManager.save(request.data);
+		callback(window.dataManager.load());
 		break;
 	}
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	if (tab.url.match(/http:\/\/dulst.com\/touhourso\/play\//gi) != null) {
-		if (settingManager.load().audio && changeInfo.status == "complete") {
-			new Audio (dataManager.load().audio.intro).play();
+		if (changeInfo.status == "complete") {
+			chrome.notifications.create((window.notificationID++).toString(), {
+				type: "basic",
+				title: "RSO Match",
+				message: "Your match is ready",
+				iconUrl: chrome.runtime.getURL("assets/images/Hakkero128x64.png")
+			}, function() {});
+			if (window.settingManager.load().audio) {
+				new Audio (window.dataManager.load().audio.intro).play();
+			}
 		}
 	}
 });
 
 
-if (!dataManager.isInit()) {
+if (!window.dataManager.isInit()) {
 	// initialize data manager with defaults and to stop this appearing again
-	dataManager.init();
+	window.dataManager.init();
 	
 	// inject content script into windows currently open to apply extension
 	chrome.windows.getAll({ populate: true }, function(windows) {
@@ -76,13 +98,13 @@ if (!dataManager.isInit()) {
 			}
 		}
 	});
-} else if (!dataManager.isLatest()) {
-	dataManager.update();
+} else if (!window.dataManager.isLatest()) {
+	window.dataManager.update();
 }
 
-if (!settingManager.isInit()) {
+if (!window.settingManager.isInit()) {
 	// initialize setting manager with defaults and to stop this appearing again
-	settingManager.init();
+	window.settingManager.init();
 	
 	// inject content script into windows currently open to apply extension
 	chrome.windows.getAll({ populate: true }, function(windows) {
@@ -96,6 +118,6 @@ if (!settingManager.isInit()) {
 			}
 		}
 	});
-} else if (!settingManager.isLatest()) {
-	settingManager.update();
+} else if (!window.settingManager.isLatest()) {
+	window.settingManager.update();
 }

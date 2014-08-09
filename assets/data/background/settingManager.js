@@ -1,4 +1,4 @@
-var CurrentVersion = '0.3';
+var CurrentVersion = "1.0";
 
 function SettingManager() {}
 
@@ -10,7 +10,7 @@ SettingManager.prototype.init = function() {
 	
 	// save setting to local storage
 	localStorage["Masutasupaku-setting"] = JSON.stringify(setting);
-	localStorage["Masutasupaku-setting-version"] = 0.3;
+	localStorage["Masutasupaku-setting-version"] = 1.0;
 	return setting;
 }
 

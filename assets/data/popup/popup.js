@@ -1,10 +1,19 @@
 $(function() {
+
   var popupGenerator = {
+    data: null,
+    setting: null,
+
     generate: function(e) {
-      this.createPopupPage(e);
-      this.createHeaderImage(e);
-      this.createAudioButton(e);
-      this.createMatchButton(e);
+        this.loadAssets(e);
+        this.createPopupPage(e);
+        this.createHeaderImage(e);
+        this.createAudioButton(e);
+        this.createMatchButton(e);
+    },
+    loadAssets: function(e) {
+      data = chrome.extension.getBackgroundPage().dataManager.load();
+      setting = chrome.extension.getBackgroundPage().settingManager.load();
     },
     createPopupPage: function(e) {
       var html = e.getElementsByTagName("html")[0];
@@ -23,10 +32,13 @@ $(function() {
       e.body.appendChild(img);
     },
     createAudioButton: function(e) {
-      e.audioMute = false;
       var input = e.createElement("input");
+      if (setting.audio) {
+        input.setAttribute("class" , "button green medium");
+      } else {
+        input.setAttribute("class" , "button red medium");
+      }
 
-      input.setAttribute("class" , "button green medium");
       input.setAttribute("alt"   , "Toggle Audio on/off");
       input.setAttribute("id"    , "audioButton"        );
       input.setAttribute("title" , "Toggle Audio on/off");
@@ -37,12 +49,13 @@ $(function() {
       input.style.marginLeft = "10px";
 
       input.onclick = function() {
-        if (document.audioMute) {
-          input.setAttribute("class" , "button green medium");
-        } else {
+        if (setting.audio) {
           input.setAttribute("class" , "button red medium");
+        } else {
+          input.setAttribute("class" , "button green medium");
         }
-        document.audioMute = !document.audioMute;
+        setting.audio = !setting.audio;
+        chrome.runtime.sendMessage({message: "setSetting", setting: setting});
       };
 
       e.body.appendChild(input);
@@ -69,8 +82,7 @@ $(function() {
   $("#matchButton").bind("click",function() {
     chrome.runtime.sendMessage({
       message: "match",
-      info: [{"url": "http://dulst.com/touhourso/matches",title: "RumblingSpellOrchestra"}],
-      setting: this.setting
+      info: [{"url": "http://dulst.com/touhourso/matches",title: "RumblingSpellOrchestra"}]
     });
   });
 });
