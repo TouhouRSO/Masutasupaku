@@ -6,8 +6,7 @@
 
   "browser_action": {
     "default_icon": "assets/images/Hakkero32.png",
-    "default_popup": "assets/data/popup/popup.html",
-    "default_title": "Masutāsupāku - Dulst-RSO extention"
+    "default_title": "Click me to toggle audio on/off"
   },
   "background": {
     "scripts": [

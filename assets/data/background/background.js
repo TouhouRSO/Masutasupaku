@@ -2,29 +2,26 @@ window.notificationID = 1;
 window.dataManager = new DataManager();
 window.settingManager = new SettingManager();
 
-function openTab(url, window_id) {
-	chrome.tabs.create({
-			windowId: window_id,
-			url: url,
-			selected: false
-	}, function(tab) {
-		chrome.tabs.update(tab.id, {selected: true});
-		setTimeout(function() {
-			chrome.tabs.executeScript(tab.id, {
-				code: "document.getElementById(\"play\").click();",
-				//runAt: "document_idle" -> not reliable
-			});
-		} ,5000); // 5 seconds after creating the page?
-	});
+/* Set icon */
+if (window.settingManager.load().audio) {
+	chrome.browserAction.setIcon({path:"assets/images/Hakkero32.png"}, function() {});
+} else {
+	chrome.browserAction.setIcon({path:"assets/images/Hakkero32off.png"}, function() {});
 }
+/* This is for the icon click audio toggle */
+chrome.browserAction.onClicked.addListener(function() {
+	if (window.settingManager.load().audio) {
+		chrome.browserAction.setIcon({path:"assets/images/Hakkero32off.png"}, function() {});
+	} else {
+		chrome.browserAction.setIcon({path:"assets/images/Hakkero32.png"}, function() {});
+	}
+	var save = window.settingManager.load();
+	save.audio = !save.audio;
+	window.settingManager.save(save);
+});
 
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
 	switch (request.message) {
-	case "match":
-		chrome.windows.getCurrent(function(window) {
-			openTab(request.info[0].url, window.id);
-		});
-		break;
 	case "init":
 		callback({
 			data: window.dataManager.load(),
