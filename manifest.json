@@ -1,8 +1,10 @@
 {
   "name": "Masutāsupāku",
+  "short_name": "Masutāsupāku",
   "description": "Dulst-TouhouRSO community pack.",
   "version": "1.0",
-  "manifest_version": 2, // mandatory for chrome
+  "author": "just another West RSO player",
+  "manifest_version": 2,
 
   "browser_action": {
     "default_icon": "assets/images/Hakkero32.png",
