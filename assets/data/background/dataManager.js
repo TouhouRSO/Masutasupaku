@@ -6,8 +6,8 @@ DataManager.prototype.init = function() {
 	// default data for first time user
 	var data = {
 		"audio": {
-			"intro": "http://cdn4.dulst.com/cardSrcMedia/18uauavl4_op1.mp3",
-			"nudge": "http://cdn4.dulst.com/cardSrcMedia/18uat6irv_mukyuu.mp3"
+			"intro": "https://raw.githubusercontent.com/TouhouRSO/TouhouRSO.github.io/master/convert/audios/op1.mp3",
+			"nudge": "https://raw.githubusercontent.com/TouhouRSO/TouhouRSO.github.io/master/convert/audios/mukyuu.mp3"
 		}
 	};
 	
