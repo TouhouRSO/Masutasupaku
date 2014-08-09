@@ -1,7 +1,7 @@
 {
   "name": "Masutāsupāku",
   "description": "Dulst-TouhouRSO community pack.",
-  "version": "0.1",
+  "version": "0.3",
   "manifest_version": 2, // mandatory for chrome
 
   "browser_action": {
